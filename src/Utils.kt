@@ -19,3 +19,7 @@ fun String.md5() = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteA
  * The cleaner shorthand for printing output.
  */
 fun Any?.println() = println(this)
+
+
+fun String.indexOfOrNull(value: String): Int? = indexOf(value).takeIf { it != -1 }
+fun String.lastIndexOfOrNull(value: String): Int? = lastIndexOf(value).takeIf { it != -1 }
