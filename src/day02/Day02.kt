@@ -8,13 +8,17 @@ private fun getListOfSets(input: String): List<List<Int>> {
     val blueRegex = "(?:[0-9]+ [a-z]+,? ?)*([0-9]+) blue,? ?(?:[0-9]+ [a-z]+,? ?)*".toRegex()
     val redRegex = "(?:[0-9]+ [a-z]+,? ?)*([0-9]+) red,? ?(?:[0-9]+ [a-z]+,? ?)*".toRegex()
     val greenRegex = "(?:[0-9]+ [a-z]+,? ?)*([0-9]+) green,? ?(?:[0-9]+ [a-z]+,? ?)*".toRegex()
-    return regex.replace(input, "$1").split(";").map { it.trim() }.map { set ->
-        listOf(
+    return regex
+        .replace(input, "$1")
+        .split(";")
+        .map { it.trim() }
+        .map { set ->
+            listOf(
                 redRegex.replace(set, "$1").toIntOrNull() ?: 0,
                 greenRegex.replace(set, "$1").toIntOrNull() ?: 0,
                 blueRegex.replace(set, "$1").toIntOrNull() ?: 0
-        )
-    }
+            )
+        }
 }
 
 fun part1(input: List<String>): Int {

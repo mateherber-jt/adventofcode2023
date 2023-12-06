@@ -2,7 +2,6 @@ package day03
 
 import println
 import readInput
-import kotlin.text.isDigit
 
 // TODO never generalize & cleanup
 fun part1(input: List<String>): Int {
@@ -49,19 +48,21 @@ fun part1(input: List<String>): Int {
 }
 
 fun part2(input: List<String>): Int {
-    val validPos = mutableSetOf<Pair<Int, Int>>()
-    val validPos2 = mutableMapOf<List<Pair<Int, Int>>, MutableList<Int>>()
+    val validPos = mutableMapOf<List<Pair<Int, Int>>, MutableList<Int>>()
     input.forEachIndexed { row, line ->
         line.forEachIndexed { column, c ->
             if (!c.isDigit() && c == '*') {
-                validPos2[listOf(row - 1 to column - 1,
+                validPos[
+                    listOf(
+                        row - 1 to column - 1,
                         row - 1 to column,
                         row - 1 to column + 1,
                         row to column - 1,
                         row to column + 1,
                         row + 1 to column - 1,
                         row + 1 to column,
-                        row + 1 to column + 1)] = mutableListOf()
+                        row + 1 to column + 1
+                    )] = mutableListOf()
             }
         }
     }
@@ -71,26 +72,18 @@ fun part2(input: List<String>): Int {
         line.forEachIndexed { column, c ->
             if (c.isDigit()) {
                 accumulator += c
-                validPos2.keys.filter {
-                    it.contains(row to column)
-                }.forEach {
-                    keys += it
-                }
+                validPos.keys.filter { it.contains(row to column) }.forEach { keys += it }
             } else {
-                keys.forEach {
-                    validPos2[it]!!.add(accumulator.toInt())
-                }
+                keys.forEach { validPos[it]!!.add(accumulator.toInt()) }
                 accumulator = ""
                 keys.clear()
             }
         }
-        keys.forEach {
-            validPos2[it]!!.add(accumulator.toInt())
-        }
+        keys.forEach { validPos[it]!!.add(accumulator.toInt()) }
         accumulator = ""
         keys.clear()
     }
-    return validPos2.values.filter { it.size == 2 }.sumOf { it[0] * it[1] }
+    return validPos.values.filter { it.size == 2 }.sumOf { it[0] * it[1] }
 }
 
 fun main() {

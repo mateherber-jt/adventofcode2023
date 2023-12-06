@@ -7,7 +7,8 @@ import readInput
 
 data class Number(val numberForm: String, val wordForm: String, val value: Int)
 
-val numbers = listOf(
+val numbers =
+    listOf(
         Number("1", "one", 1),
         Number("2", "two", 2),
         Number("3", "three", 3),
@@ -17,26 +18,38 @@ val numbers = listOf(
         Number("7", "seven", 7),
         Number("8", "eight", 8),
         Number("9", "nine", 9),
-)
+    )
 
 private fun String.getValue(useWordForm: Boolean): Int {
-    val first = numbers.mapNotNull { number ->
-        if (useWordForm) {
-            listOfNotNull(indexOfOrNull(number.numberForm), indexOfOrNull(number.wordForm)).minOrNull()?.let { number.value to it }
-        } else {
-            indexOfOrNull(number.numberForm)?.let { number.value to it }
-        }
-    }.minByOrNull { it.second }!!
-    val last = numbers.mapNotNull { number ->
-        if (useWordForm) {
-            listOfNotNull(lastIndexOfOrNull(number.numberForm), lastIndexOfOrNull(number.wordForm)).maxOrNull()?.let { number.value to it }
-        } else {
-            lastIndexOfOrNull(number.numberForm)?.let { number.value to it }
-        }
-    }.maxByOrNull { it.second }!!
+    val first =
+        numbers
+            .mapNotNull { number ->
+                if (useWordForm) {
+                    listOfNotNull(indexOfOrNull(number.numberForm), indexOfOrNull(number.wordForm))
+                        .minOrNull()
+                        ?.let { number.value to it }
+                } else {
+                    indexOfOrNull(number.numberForm)?.let { number.value to it }
+                }
+            }
+            .minByOrNull { it.second }!!
+    val last =
+        numbers
+            .mapNotNull { number ->
+                if (useWordForm) {
+                    listOfNotNull(
+                            lastIndexOfOrNull(number.numberForm),
+                            lastIndexOfOrNull(number.wordForm)
+                        )
+                        .maxOrNull()
+                        ?.let { number.value to it }
+                } else {
+                    lastIndexOfOrNull(number.numberForm)?.let { number.value to it }
+                }
+            }
+            .maxByOrNull { it.second }!!
     return first.first * 10 + last.first
 }
-
 
 fun part1(input: List<String>): Int {
     return input.sumOf { it.getValue(false) }
@@ -56,6 +69,3 @@ fun main() {
     part1(input).println()
     part2(input).println()
 }
-
-
-
