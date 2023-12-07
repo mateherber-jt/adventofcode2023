@@ -19,8 +19,8 @@ fun String.indexOfOrNull(value: String): Int? = indexOf(value).takeIf { it != -1
 
 fun String.lastIndexOfOrNull(value: String): Int? = lastIndexOf(value).takeIf { it != -1 }
 
-fun String.toIntList() = split(" ").map { it.toInt() }
+fun String.toIntList() = split(" ").filter { it.isNotBlank() }.map { it.toInt() }
 
-fun String.toLongList() = split(" ").map { it.toLong() }
+fun String.toLongList() = split(" ").filter { it.isNotBlank() }.map { it.toLong() }
 
 fun List<Long>.toLongRange() = LongRange(first(), last())
